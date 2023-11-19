@@ -3,7 +3,7 @@
         // Optional parameters
         loop: true,
         autoplay: {
-            delay: 5000,
+            delay: 2000,
           },
         // If we need pagination
         pagination: {
@@ -38,22 +38,14 @@
         },
     });
 
-const showNavbar = ()=>{
-    alert("r");
-}
-let products = [];
-showNav.addEventListener("click",showNavbar)
-
-
 const getAllProducts = async()=>{
-
-    const {data} =await  axios.get("https://dummyjson.com/products");
+    let random = Math.round(Math.random() * 10);
+    const {data} =await  axios.get(`https://dummyjson.com/products?limit=6`);
     products = data.products;
-    console.log(products);
-    displayProduct();
+return products;
 }
-
-const displayProduct = ()=>{
+const displayProduct = async ()=>{
+    const products = await getAllProducts();
     const result= products.map( (ele)=>{
         return `<div class="swiper-slide">
         <div class="product-container">
@@ -114,9 +106,9 @@ const displayProduct = ()=>{
 
         </div>
     </div>`
-    } )
+    } ).join('');
 
     document.querySelector("#product").innerHTML=result;
 
 }
-getAllProducts();
+displayProduct();
